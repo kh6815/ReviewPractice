@@ -1,0 +1,63 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+.header{
+    background: black;
+    color: white;
+    border-bottom: 1px solid lightgray;
+}
+.container{
+    width: 1250px;
+    margin: auto;/*수평 중앙 정렬*/
+    display: flex;
+}
+.container-left{
+    padding: 20px 0;
+    flex:1;
+}
+.logo{
+    float: left;
+    margin-right: 5px;
+}
+.logo img{
+    display: block;
+}
+.menu{
+    float: left;
+}
+.menu-item{
+    float: left;
+/*    margin-right: 10px;*/
+    padding: 8px 10px; /* padding을 추가하면 내부 컨텐츠의 여백이 늘어남. top,bottom = 8px / right, left = 10px*/
+}
+.clearfix::after{
+    content: "";
+    display: block;
+    clear: both;
+}/*float는 요소를 띄워주면서 수평으로 바꾸어 주는 속성인데,
+수평으로 바뀔때 요소가 뜨기 때문에 배경에서 포함이 되지 못하는 문제점이 발생하는데 이것을 해결해주는 것이 clearfix
+*/
+.container-right{
+    padding: 20px 0;
+    flex:1;
+}
+.sign{
+    padding: 8px 10px; 
+    margin-right: 5px;
+    float: right;
+}
+.sign a{
+    color: white;
+    text-decoration:none
+}
+.solidBoxA{
+    padding: 5px 5px;
+    border-radius: 5px 5px 5px 5px;
+    border: 1px solid lightgray;
+}
+.search{
+    padding: 5px 10px; 
+    float: right;
+}
+
