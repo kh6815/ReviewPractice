@@ -110,17 +110,17 @@ from openpyxl import load_workbook
 wb = load_workbook('email list_fastcampus news.xlsx', read_only=True)
 data = wb.active
 
-sendEmail = []
+sendEmails = []
 
 for row in data.iter_rows(min_row=3):
-    dataTemp = []
+    sendEmail = []
     for cell in row:
-        dataTemp.append(cell.value)
-    sendEmail.append(dataTemp)
+        sendEmail.append(cell.value)
+    sendEmails.append(sendEmail)
 
 contents = '''
 안녕하세요.
 자동화로 보내지는 메일입니다.
 '''
-for email in sendEmail:
+for email in sendEmails:
     send_mail(email[1], email[2], '자동화 메일입니다.', contents, excelFileName)
