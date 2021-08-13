@@ -34,6 +34,9 @@ crawler = NaverNewsCrawler(newKeyword)
 
 #### 수집한 데이터를 저장할 엑셀 파일명을 input을 이용해 입력받아 ? 부분에 넣으세요
 excelFileName = input("excelFileName: ")
+if not ".xlsx" in excelFileName or not ".xls" in excelFileName:
+    excelFileName = excelFileName + ".xlsx"
+
 crawler.get_news(excelFileName)
 
 #### 아래코드를 실행해 이메일 발송 기능에 필요한 모듈을 임포트하세요.
@@ -41,18 +44,26 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import smtplib
 import re
+import json
+from openpyxl import Workbook
+
+with open ("conf.json") as f:
+    config = json.load(f)
 
 #### gmail 발송 기능에 필요한 계정 정보를 아래 코드에 입력하세요.
 SMTP_SERVER = 'smtp.gmail.com'
 SMTP_PORT = 465
-SMTP_USER = 'kh6815@gmail.com'
-SMTP_PASSWORD = 'rkdgus8520@@'
+SMTP_USER = config['email']
+SMTP_PASSWORD = config['password']
 
 #### 아래 코드를 실행해 메일 발송에 필요한 send_mail 함수를 만드세요.
 def send_mail(name, addr, subject, contents, attachment=None):
-    if not re.match('(^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)', addr):
-        print('Wrong email')
-        return
+    while True:
+        if not re.match('(^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)', addr):
+            print('Wrong email')
+            addr = input("이메일을 다시 입력해주세요 : ")
+        else:
+            break
 
     msg = MIMEMultipart('alternative')
     if attachment:
@@ -85,7 +96,6 @@ def send_mail(name, addr, subject, contents, attachment=None):
 
 
 #### 프로젝트 폴더에 있는 email_list.xlsx 파일에 이메일 받을 사람들의 정보를 입력하세요.
-from openpyxl import Workbook
 emailList = []
 emailList.append(["최강현", "kh6815@gmail.com"])
 
@@ -107,7 +117,7 @@ wb.save('email list_fastcampus news.xlsx')
 from openpyxl import load_workbook
 
 #### email_list.xlsx 파일을 읽어와 해당 사람들에게 수집한 뉴스 정보 엑셀 파일을 send_mail 함수를 이용해 전송하세요.
-wb = load_workbook('email list_fastcampus news.xlsx', read_only=True)
+wb = load_workbook('email_list_fastcampus_news.xlsx', read_only=True)
 data = wb.active
 
 sendEmails = []
